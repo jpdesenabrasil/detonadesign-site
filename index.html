@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="Detona Design — identidade visual, flyers e conteúdo digital.">
+  <title>Detona Design</title>
+
+  <style>
+    :root {
+      --black: #000;
+      --white: #fff;
+      --green: #00ef74;
+      --cyan: #00d9df;
+      --muted: rgba(255,255,255,.62);
+      --line: rgba(255,255,255,.16);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--black);
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--white);
+      background: #000;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .page-noise {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 50;
+      opacity: .05;
+      background-image:
+        repeating-radial-gradient(circle at 20% 20%, #fff 0 1px, transparent 1px 4px);
+      background-size: 8px 8px;
+      mix-blend-mode: soft-light;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      background:
+        radial-gradient(circle at 50% 47%, rgba(0,239,116,.13), transparent 22%),
+        radial-gradient(circle at 50% 50%, rgba(0,217,223,.06), transparent 42%),
+        #000;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    .hero::before {
+      background:
+        linear-gradient(90deg, transparent 49.85%, rgba(255,255,255,.055) 50%, transparent 50.15%),
+        linear-gradient(transparent 49.85%, rgba(255,255,255,.035) 50%, transparent 50.15%);
+      background-size: 145px 145px;
+      mask-image: radial-gradient(circle at center, #000, transparent 72%);
+    }
+
+    .hero::after {
+      width: min(72vw, 950px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 50%;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      box-shadow:
+        0 0 0 90px rgba(255,255,255,.018),
+        0 0 0 180px rgba(255,255,255,.012);
+      animation: breathe 4s ease-in-out infinite;
+    }
+
+    .corner {
+      position: absolute;
+      font-size: 11px;
+      letter-spacing: .18em;
+      color: rgba(255,255,255,.38);
+      text-transform: uppercase;
+      z-index: 4;
+    }
+
+    .corner.tl { top: 22px; left: 24px; }
+    .corner.tr { top: 22px; right: 24px; }
+    .corner.bl { bottom: 22px; left: 24px; }
+    .corner.br { bottom: 22px; right: 24px; }
+
+    .rail {
+      position: absolute;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      height: 44px;
+      color: #fff;
+      border-block: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(8px);
+      z-index: 3;
+    }
+
+    .rail.top { top: 66px; }
+    .rail.bottom { bottom: 66px; }
+
+    .rail-track {
+      width: max-content;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      white-space: nowrap;
+      font-size: 18px;
+      letter-spacing: .22em;
+      animation: moveLeft 16s linear infinite;
+    }
+
+    .rail.bottom .rail-track {
+      animation-name: moveRight;
+    }
+
+    .rail strong {
+      color: var(--green);
+      font-size: 10px;
+      letter-spacing: .3em;
+    }
+
+    .hero-inner {
+      width: min(1000px, calc(100% - 34px));
+      padding: 150px 0 145px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .23em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 16px var(--green);
+      animation: blink 1.4s infinite;
+    }
+
+    .logo-shell {
+      position: relative;
+      width: min(720px, 92vw);
+    }
+
+    .logo-shell::before {
+      content: "";
+      position: absolute;
+      inset: 20% 16%;
+      z-index: -1;
+      background: radial-gradient(circle, rgba(0,239,116,.19), transparent 65%);
+      filter: blur(20px);
+    }
+
+    .main-logo {
+      width: 100%;
+      filter:
+        drop-shadow(0 0 26px rgba(0,239,116,.10))
+        drop-shadow(0 26px 45px rgba(0,0,0,.8));
+      animation: logoPulse 5s ease-in-out infinite;
+    }
+
+    .year-line {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+
+    .year-line i {
+      display: block;
+      width: 54px;
+      height: 1px;
+      background: rgba(255,255,255,.3);
+    }
+
+    .hero-actions {
+      margin-top: 26px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .btn {
+      min-height: 46px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 22px;
+      border: 1px solid rgba(255,255,255,.2);
+      background: rgba(0,0,0,.5);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      transition: .25s ease;
+    }
+
+    .btn:hover {
+      color: #000;
+      background: #fff;
+      transform: translateY(-3px);
+    }
+
+    .btn.primary {
+      color: #00120a;
+      border-color: transparent;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+    }
+
+    .scroll {
+      position: absolute;
+      bottom: 126px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,.45);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      z-index: 4;
+    }
+
+    .content {
+      position: relative;
+      background: #000;
+      border-top: 1px solid rgba(255,255,255,.1);
+    }
+
+    .container {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    section.block {
+      padding: 100px 0;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+    }
+
+    .title {
+      max-width: 900px;
+      margin-top: 16px;
+      font-size: clamp(42px, 8vw, 110px);
+      line-height: .88;
+      letter-spacing: -.055em;
+      text-transform: uppercase;
+    }
+
+    .copy {
+      max-width: 660px;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    .grid {
+      margin-top: 50px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,.13);
+      border: 1px solid rgba(255,255,255,.13);
+    }
+
+    .card {
+      min-height: 260px;
+      padding: 30px;
+      background: #050505;
+      transition: .25s ease;
+    }
+
+    .card:hover {
+      background:
+        radial-gradient(circle at 100% 0%, rgba(0,239,116,.13), transparent 45%),
+        #080808;
+    }
+
+    .card .number {
+      color: var(--cyan);
+      font-size: 11px;
+      letter-spacing: .2em;
+      font-weight: 900;
+    }
+
+    .card h3 {
+      margin-top: 80px;
+      font-size: 24px;
+      text-transform: uppercase;
+    }
+
+    .card p {
+      margin-top: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .contact {
+      padding: 110px 0;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,.1);
+      background:
+        radial-gradient(circle at 50% 100%, rgba(0,239,116,.13), transparent 34%),
+        #000;
+    }
+
+    .contact h2 {
+      max-width: 900px;
+      margin: 14px auto 30px;
+      font-size: clamp(42px, 8vw, 104px);
+      line-height: .9;
+      letter-spacing: -.055em;
+      text-transform: uppercase;
+    }
+
+    footer {
+      padding: 26px 0;
+      border-top: 1px solid rgba(255,255,255,.1);
+      color: rgba(255,255,255,.45);
+      font-size: 11px;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    @keyframes moveLeft {
+      to { transform: translateX(-50%); }
+    }
+
+    @keyframes moveRight {
+      from { transform: translateX(-50%); }
+      to { transform: translateX(0); }
+    }
+
+    @keyframes blink {
+      50% { opacity: .25; transform: scale(.7); }
+    }
+
+    @keyframes breathe {
+      50% { opacity: .45; transform: translate(-50%, -50%) scale(1.03); }
+    }
+
+    
+    @keyframes logoPulse {
+      0%,100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.025);
+      }
+    }
+
+
+    @keyframes logoIn {
+      from { opacity: 0; transform: translateY(22px) scale(.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @media (max-width: 780px) {
+      .corner { display: none; }
+      .rail.top { top: 22px; }
+      .rail.bottom { bottom: 22px; }
+      .hero-inner { padding-block: 110px; }
+      .scroll { bottom: 78px; }
+      .grid { grid-template-columns: 1fr; }
+      .year-line i { width: 25px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  
+    /* V3: página única, encerrando na primeira tela */
+    .hero {
+      min-height: 100svh;
+      height: 100svh;
+    }
+
+    .hero-inner {
+      padding-top: 128px;
+      padding-bottom: 54px;
+    }
+
+    .rail.top.services-rail {
+      top: 48px;
+      height: 58px;
+      justify-content: center;
+      padding-inline: 20px;
+    }
+
+    .services-text {
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-size: clamp(10px, 1vw, 14px);
+      font-weight: 900;
+      line-height: 1.4;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      white-space: normal;
+    }
+
+    .services-text span {
+      color: var(--green);
+      padding: 0 8px;
+    }
+
+    body {
+      height: 100svh;
+      overflow: hidden;
+    }
+
+    @media (max-width: 780px) {
+      .rail.top.services-rail {
+        top: 18px;
+        height: auto;
+        min-height: 64px;
+        padding: 12px 16px;
+      }
+
+      .services-text {
+        font-size: 9px;
+        letter-spacing: .1em;
+      }
+
+      .hero-inner {
+        padding-top: 118px;
+        padding-bottom: 28px;
+      }
+    }
+
+  
+    /* V6: efeito de câmera e linhas em onda */
+    .hero {
+      perspective: 1100px;
+      transform-style: preserve-3d;
+    }
+
+    .hero-inner,
+    .hero::after,
+    .wave-lines {
+      will-change: transform;
+    }
+
+    .hero-inner {
+      transition: transform .18s ease-out;
+      transform-style: preserve-3d;
+    }
+
+    .wave-lines {
+      position: absolute;
+      inset: -8%;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: .34;
+      transform: translate3d(0,0,-40px);
+      filter: blur(.2px);
+    }
+
+    .wave-lines span {
+      position: absolute;
+      left: -12%;
+      width: 124%;
+      height: 170px;
+      border: 1px solid rgba(0, 239, 116, .11);
+      border-color: rgba(0, 239, 116, .13) transparent transparent transparent;
+      border-radius: 50%;
+      animation: waveDrift 9s ease-in-out infinite alternate;
+    }
+
+    .wave-lines span:nth-child(1) { top: 7%; animation-delay: -1s; }
+    .wave-lines span:nth-child(2) { top: 15%; animation-delay: -3s; opacity: .65; }
+    .wave-lines span:nth-child(3) { top: 24%; animation-delay: -5s; }
+    .wave-lines span:nth-child(4) { top: 33%; animation-delay: -2s; opacity: .55; }
+    .wave-lines span:nth-child(5) { top: 42%; animation-delay: -6s; }
+    .wave-lines span:nth-child(6) { top: 51%; animation-delay: -4s; opacity: .6; }
+    .wave-lines span:nth-child(7) { top: 60%; animation-delay: -7s; }
+    .wave-lines span:nth-child(8) { top: 69%; animation-delay: -2.5s; opacity: .55; }
+    .wave-lines span:nth-child(9) { top: 78%; animation-delay: -5.5s; }
+    .wave-lines span:nth-child(10) { top: 87%; animation-delay: -1.5s; opacity: .65; }
+
+    @keyframes waveDrift {
+      0% {
+        transform: translate3d(-1.5%, -8px, 0) scaleX(1.02) rotate(-.4deg);
+      }
+      50% {
+        transform: translate3d(1.5%, 12px, 0) scaleX(.98) rotate(.5deg);
+      }
+      100% {
+        transform: translate3d(-.5%, -3px, 0) scaleX(1.01) rotate(-.2deg);
+      }
+    }
+
+    @media (hover: none), (pointer: coarse) {
+      .hero-inner {
+        animation: cameraFloat 8s ease-in-out infinite;
+      }
+    }
+
+    @keyframes cameraFloat {
+      0%,100% { transform: translate3d(0,0,0) rotateX(0) rotateY(0); }
+      50% { transform: translate3d(0,-5px,18px) rotateX(.35deg) rotateY(-.35deg); }
+    }
+
+  
+    /* V9: correção definitiva dos botões */
+    .hero-actions {
+      position: relative;
+      z-index: 100;
+      pointer-events: auto;
+    }
+
+    .hero-actions .btn {
+      position: relative;
+      z-index: 101;
+      pointer-events: auto;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .logo-shell,
+    .main-logo,
+    .year-line,
+    .status {
+      pointer-events: none;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="page-noise"></div>
+
+  <main>
+    <section class="hero" id="inicio">
+      <div class="wave-lines" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <span class="corner tl">Detona // Design</span>
+      <span class="corner tr">Sua arte é nossa paixão</span>
+      <span class="corner bl">Brasil // Online</span>
+      <span class="corner br">Since 2013</span>
+
+      <div class="rail top services-rail" aria-label="Serviços oferecidos">
+        <div class="services-text">
+          LOGOS <span>•</span> FLYERS ESTÁTICOS <span>•</span> FLYERS ANIMADOS
+          <span>•</span> CARDÁPIOS <span>•</span> PACOTES EXCLUSIVOS
+          <span>•</span> SOCIAL MEDIA
+        </div>
+      </div>
+
+      <div class="hero-inner">
+        <div class="status">
+          <span class="status-dot"></span>
+          Online para novos projetos
+        </div>
+
+        <div class="logo-shell">
+          <img
+            class="main-logo"
+            src="assets/detona-logo.png"
+            alt="Detona Design"
+          >
+        </div>
+
+        <div class="year-line">
+          <i></i>
+          <span>2K26 // Online</span>
+          <i></i>
+        </div>
+
+        <div class="hero-actions">
+          <a id="whatsappBtn" class="btn primary" href="https://api.whatsapp.com/send/?phone=5511977891820&amp;text=Ol%C3%A1+Detona+Design%21+Quero+solicitar+um+or%C3%A7amento.&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener noreferrer">Solicitar orçamento</a>
+          <a id="instagramBtn" class="btn" href="https://www.instagram.com/detonadesign/" target="_blank" rel="noopener noreferrer">Ver Instagram</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  
+
+  <script>
+    const hero = document.querySelector(".hero");
+    const heroInner = document.querySelector(".hero-inner");
+    const waves = document.querySelector(".wave-lines");
+
+    if (hero && heroInner && window.matchMedia("(pointer:fine)").matches) {
+      let targetX = 0, targetY = 0;
+      let currentX = 0, currentY = 0;
+
+      hero.addEventListener("mousemove", (event) => {
+        const rect = hero.getBoundingClientRect();
+        targetX = ((event.clientX - rect.left) / rect.width - 0.5);
+        targetY = ((event.clientY - rect.top) / rect.height - 0.5);
+      });
+
+      hero.addEventListener("mouseleave", () => {
+        targetX = 0;
+        targetY = 0;
+      });
+
+      const animateCamera = () => {
+        currentX += (targetX - currentX) * 0.055;
+        currentY += (targetY - currentY) * 0.055;
+
+        heroInner.style.transform =
+          `translate3d(${currentX * 10}px, ${currentY * 8}px, 18px)
+           rotateX(${-currentY * 1.8}deg)
+           rotateY(${currentX * 2.2}deg)`;
+
+        if (waves) {
+          waves.style.transform =
+            `translate3d(${currentX * -18}px, ${currentY * -12}px, -40px)`;
+        }
+
+        requestAnimationFrame(animateCamera);
+      };
+
+      animateCamera();
+    }
+  </script>
+
+
+  <script>
+    (() => {
+      const whatsappUrl = "https://api.whatsapp.com/send/?phone=5511977891820&text=Ol%C3%A1+Detona+Design%21+Quero+solicitar+um+or%C3%A7amento.&type=phone_number&app_absent=0";
+      const instagramUrl = "https://www.instagram.com/detonadesign/";
+
+      const openLink = (url) => {
+        const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+        if (!newWindow) {
+          window.location.href = url;
+        }
+      };
+
+      const whatsappBtn = document.getElementById("whatsappBtn");
+      const instagramBtn = document.getElementById("instagramBtn");
+
+      if (whatsappBtn) {
+        whatsappBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          openLink(whatsappUrl);
+        });
+      }
+
+      if (instagramBtn) {
+        instagramBtn.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          openLink(instagramUrl);
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
