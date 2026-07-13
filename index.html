@@ -597,6 +597,79 @@
       pointer-events: none;
     }
 
+  
+    /* V10: faixa superior com rolagem infinita */
+    .rail.top.services-rail {
+      top: 48px;
+      height: 58px;
+      padding: 0;
+      justify-content: flex-start;
+      overflow: hidden;
+    }
+
+    .services-marquee {
+      display: flex;
+      width: max-content;
+      min-width: max-content;
+      white-space: nowrap;
+      animation: servicesScroll 28s linear infinite;
+      will-change: transform;
+    }
+
+    .services-group {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      gap: 22px;
+      padding-right: 22px;
+      color: #fff;
+      font-size: clamp(10px, 1vw, 14px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .services-group b {
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    @keyframes servicesScroll {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    .services-rail:hover .services-marquee {
+      animation-play-state: paused;
+    }
+
+    @media (max-width: 780px) {
+      .rail.top.services-rail {
+        top: 18px;
+        height: 58px;
+        padding: 0;
+      }
+
+      .services-group {
+        gap: 15px;
+        padding-right: 15px;
+        font-size: 9px;
+        letter-spacing: .11em;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .services-marquee {
+        animation-duration: 1ms !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -615,10 +688,24 @@
       <span class="corner br">Since 2013</span>
 
       <div class="rail top services-rail" aria-label="Serviços oferecidos">
-        <div class="services-text">
-          LOGOS <span>•</span> FLYERS ESTÁTICOS <span>•</span> FLYERS ANIMADOS
-          <span>•</span> CARDÁPIOS <span>•</span> PACOTES EXCLUSIVOS
-          <span>•</span> SOCIAL MEDIA
+        <div class="services-marquee">
+          <div class="services-group">
+            <span>LOGOS</span><b>•</b>
+            <span>FLYERS ESTÁTICOS</span><b>•</b>
+            <span>FLYERS ANIMADOS</span><b>•</b>
+            <span>CARDÁPIOS</span><b>•</b>
+            <span>PACOTES EXCLUSIVOS</span><b>•</b>
+            <span>SOCIAL MEDIA</span><b>•</b>
+          </div>
+
+          <div class="services-group" aria-hidden="true">
+            <span>LOGOS</span><b>•</b>
+            <span>FLYERS ESTÁTICOS</span><b>•</b>
+            <span>FLYERS ANIMADOS</span><b>•</b>
+            <span>CARDÁPIOS</span><b>•</b>
+            <span>PACOTES EXCLUSIVOS</span><b>•</b>
+            <span>SOCIAL MEDIA</span><b>•</b>
+          </div>
         </div>
       </div>
 
@@ -631,7 +718,7 @@
         <div class="logo-shell">
           <img
             class="main-logo"
-            src="detona-logo.png"
+            src="./detona-logo.png"
             alt="Detona Design"
           >
         </div>
